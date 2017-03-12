@@ -1,0 +1,139 @@
+create table stations
+(
+	id varchar(20) primary key,--车站序号
+	name varchar(20) not null,--车站名
+	spell varchar(5) not null,--拼音码
+	administrator varchar(20) default('不详'),--所属铁路局
+	grade int check(grade>=1 and grade<=5),--车站等级
+	adplace varchar(50) not null,--所属行政区
+	place varchar(50) default('不详')--联系地址
+)
+
+create table Atrains
+(
+	id varchar(20) primary key,--车次代码
+	start_station varchar(20) not null,--始发站
+	end_station varchar(20) not null,--终到站
+	start_time date not null,--始发时间
+	end_time date not null,--终到时间
+	time int not null,--历时
+	distance float not null,--里程
+	no_seat int not null,--无座票数量
+	classification varchar(10) not null, --车体分类
+	type varchar(10) not null--列车类型
+)
+
+create table lines
+(
+	id int primary key identity(1,1),--线路编号自动生成
+	At_id varchar(20) not null,--车次代码
+	s_name varchar(20) not null,--车站名
+	start_time date not null,--发车时间
+	end_time date not null,--到站时间
+	distance float not null,--里程
+	stay_time int not null,--停留时间
+	time int not null,--历时
+	s_id varchar(20) not null,--车站序号
+)
+
+create table train
+(
+	id int primary key identity(1,1),--列车编号
+	At_id varchar(20) not null,--车次代码
+	number int not null,--车厢号
+	seat_type varchar(20) default('不详'),--车厢坐席类型
+	seat_number int default('0'),--车厢坐席数量
+	type varchar(10)--车厢类型
+)
+
+create table ticketrate
+(
+	id int primary key identity(1,1),--票价率编号
+	type varchar(10) not null,--票种
+	ticketrate float not null--票价率
+)
+
+create table trips
+(
+	id int primary key identity(1,1),--旅程编号
+	from_trip varchar(20) not null,--旅程区段from
+	to_trip varchar(20) not null,--旅程区段to
+	distance float not null,--旅程区段里程
+	amount int not null--区段数
+)
+
+create table triprate
+(
+	id int primary key identity(1,1),--递远递减率编号
+	t_from varchar(20) not null,--旅程区段from
+	t_to varchar(20) not null,--旅程区段to
+	triprate float not null,--递减率
+	t_ticketrate float not null,--票价率
+	tirp_price float,--各区段票价
+	trip_allprice float--区段累计票价
+)
+
+create table plans
+(
+	id int primary key identity(1,1),--计划代码
+	At_id varchar(20) not null,--车次代码
+	t_number int not null,--车厢号
+	compare varchar(3) not null,--比较
+	s_name varchar(20) not null--车站
+)
+
+create table seats 
+(
+	id int primary key identity(1,1),--席位代码
+	At_id varchar(20) not null,--车次代码
+	At_start_time date not null,--日期
+	t_number int not null,--车厢号
+	s_number int not null,--座位号
+	t_from varchar(20) not null,--乘车区间起始站
+	t_to varchar(20) not null,--乘车区间终到站
+	state varchar(10) not null--售票状态
+)
+
+create table orders
+(
+	id int primary key identity(1,1),--订单代码
+	number varchar(20) not null,--订单人代码
+	state varchar(20) not null,--订单状态
+	time date not null--下单时间
+)
+
+create table tickets
+(
+	id int primary key identity(1,1),--车票代码
+	At_id varchar(20) not null,--车次
+	At_start_time date not null,--日期
+	t_number int not null,--车厢
+	s_number int not null,--座位号
+	t_from varchar(20) not null,--乘车区间起始站
+	t_to varchar(20) not null,--乘车区间终到站
+	price int not null,--价格
+	name varchar(20) not null,--乘客姓名
+	style varchar(3) not null,--乘客类型
+	cretid varchar(20) not null,--身份证号码
+	sale_mode varchar(10),--销售方式
+	sale_mode_detail varchar(20),--销售方式详细
+	sale_time date,--销售时间
+	states varchar(20),--车票状态
+	modify_people varchar(20),--状态修改人
+	modify_station varchar(20),--状态修改车站
+	modify_time date--状态修改时间
+)
+
+create table userinfo
+(
+	id int primary key identity(1,1),--用户代码
+	username varchar(20) not null unique,--邮箱
+	password varchar(20) not null,--密码
+	name varchar(20) not null,--姓名
+	sex varchar(2) not null,--性别
+	cretid varchar(20) not null,--身份证号码
+	phone varchar(20) not null,--联系电话
+	last_time date ,--最近一次登录时间
+	state varchar(20)--用户状态
+)
+

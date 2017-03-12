@@ -1,0 +1,13 @@
+package bean;
+
+public class userinfo {
+	private int id;
+	private String username;
+	private String password;
+	private String name;
+	private String sex;
+	private String cretid;
+	private String phone;
+	private String last_time;
+	private String state;
+}

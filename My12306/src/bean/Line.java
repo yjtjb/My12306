@@ -1,0 +1,12 @@
+package bean;
+
+public class Line {
+	private String id;
+	private String At_id;
+	private String s_name;
+	private String start_time;
+	private String end_time;
+	private int stay_time;
+	private float distance;
+	private String s_id;
+}
